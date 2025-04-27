@@ -173,3 +173,34 @@ func InsertOrder(collection *mongo.Collection, order models.Order) (any, error) 
 	orderId := insertResult.InsertedID
 	return orderId, nil
 }
+
+func CheckUser(collection *mongo.Collection, username string) (*models.Credentials, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	filter := bson.D{{Key: "username", Value: username}}
+
+	var users models.Credentials
+	err := collection.FindOne(ctx, filter).Decode(&users)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			fmt.Printf("No User found with ID: %s\n", username)
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &users, nil
+}
+
+func InsertUser(collection *mongo.Collection, credentials models.Credentials) (any, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	insertResult, err := collection.InsertOne(ctx, credentials)
+	if err != nil {
+		log.Fatal(err)
+		return "", err
+	}
+	userId := insertResult.InsertedID
+	return userId, nil
+}

@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gogineni1998/oolio-assignment-backend/configuration"
+	"github.com/gogineni1998/oolio-assignment-backend/database"
 	"github.com/gogineni1998/oolio-assignment-backend/models"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -22,9 +23,17 @@ var Token = func() http.HandlerFunc {
 			return
 		}
 
-		expectedPassword, ok := models.Users[creds.Username]
-		if !ok || expectedPassword != creds.Password {
-			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		credentials, err := database.CheckUser(configuration.DBUsersCollection, creds.Username)
+		if err != nil {
+			http.Error(w, "Error checking user", http.StatusInternalServerError)
+			return
+		}
+		if credentials == nil {
+			http.Error(w, "User dosen't exists", http.StatusConflict)
+			return
+		}
+		if credentials.Password != creds.Password {
+			http.Error(w, "Invalid password", http.StatusUnauthorized)
 			return
 		}
 
@@ -60,13 +69,20 @@ var Register = func() http.HandlerFunc {
 			http.Error(w, "Invalid request", http.StatusBadRequest)
 			return
 		}
-		_, ok := models.Users[creds.Username]
-		if ok {
-			w.WriteHeader(http.StatusConflict)
-			w.Write([]byte("user already exists"))
+		credentials, err := database.CheckUser(configuration.DBUsersCollection, creds.Username)
+		if err != nil {
+			http.Error(w, "Error checking user", http.StatusInternalServerError)
 			return
 		}
-		models.Users[creds.Username] = creds.Password
+		if credentials != nil {
+			http.Error(w, "User already exists", http.StatusConflict)
+			return
+		}
+		_, err = database.InsertUser(configuration.DBUsersCollection, creds)
+		if err != nil {
+			http.Error(w, "Error inserting user", http.StatusInternalServerError)
+			return
+		}
 		w.WriteHeader(http.StatusCreated)
 		w.Write([]byte("user registered successfully"))
 	}

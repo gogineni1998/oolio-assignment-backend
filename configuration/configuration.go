@@ -21,6 +21,7 @@ var (
 	DBClient             *mongo.Client
 	DBProductsCollection *mongo.Collection
 	DBOrdersCollection   *mongo.Collection
+	DBUsersCollection    *mongo.Collection
 )
 
 func init() {
@@ -30,6 +31,7 @@ func init() {
 	}
 	DBProductsCollection = database.ConnectMongoCollection(DBClient, "oolio-product-database", "products")
 	DBOrdersCollection = database.ConnectMongoCollection(DBClient, "oolio-product-database", "orders")
+	DBUsersCollection = database.ConnectMongoCollection(DBClient, "oolio-product-database", "users")
 	ctx := context.Background()
 	database.InsertDataIfNotExists(DBProductsCollection, ctx)
 	for _, filePath := range couponsFilePaths {
