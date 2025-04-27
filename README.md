@@ -6,7 +6,7 @@ Follow the steps below to set up and run the project:
 
 ### Step 1: Clone the Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/gogineni1998/oolio-assignment-backend.git
 cd oolio-assignment-backend
 ```
 
