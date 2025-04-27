@@ -3,6 +3,8 @@ package configuration
 import (
 	"context"
 
+	"log"
+
 	"github.com/gogineni1998/oolio-assignment-backend/coupons"
 	"github.com/gogineni1998/oolio-assignment-backend/database"
 	"github.com/gogineni1998/oolio-assignment-backend/models"
@@ -37,4 +39,5 @@ func init() {
 	for _, filePath := range couponsFilePaths {
 		CopounData[filePath] = coupons.LoadCoupons(filePath)
 	}
+	log.Println("Coupons loaded successfully")
 }

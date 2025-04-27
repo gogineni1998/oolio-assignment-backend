@@ -19,12 +19,16 @@ var Product = func() http.HandlerFunc {
 		productID := strings.TrimSuffix(path, "/")
 
 		if productID == "" {
-			http.Error(w, "Product ID is required", http.StatusBadRequest)
+			http.Error(w, "Invalid ID supplied", http.StatusBadRequest)
 			return
 		}
 		databaseProduct, err := database.GetProductByID(configuration.DBProductsCollection, productID)
 		if err != nil {
 			http.Error(w, "Error fetching product", http.StatusInternalServerError)
+			return
+		}
+		if databaseProduct == nil {
+			http.Error(w, "Product not found", http.StatusNotFound)
 			return
 		}
 		w.Header().Set("Content-Type", "application/json")

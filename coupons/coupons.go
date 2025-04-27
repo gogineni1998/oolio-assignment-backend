@@ -14,6 +14,8 @@ var LoadCoupons = func(gzFile string) string {
 	}
 	defer file.Close()
 
+	log.Println("loading coupons from", gzFile)
+
 	gzReader, err := gzip.NewReader(file)
 	if err != nil {
 		log.Fatal(err)
