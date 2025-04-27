@@ -15,8 +15,15 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+const (
+	dbUsername = "goginenidheeraj"
+	dbPassword = "Dheeraj123#"
+	dbHost     = "oolio.pgcsmyl.mongodb.net"
+	dbName     = "Oolio"
+)
+
 func DatabaseConnect() *mongo.Client {
-	mongoURI := "mongodb+srv://goginenidheeraj:Dheeraj123#@oolio.pgcsmyl.mongodb.net/?retryWrites=true&w=majority&appName=Oolio"
+	mongoURI := fmt.Sprintf("mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority&appName=%s", dbUsername, dbPassword, dbHost, dbName)
 
 	clientOptions := options.Client().ApplyURI(mongoURI)
 
