@@ -86,6 +86,10 @@
 				"url": {
 					"raw": "token",
 					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
 						"token"
 					]
 				}

@@ -27,7 +27,7 @@ var Order = func() http.HandlerFunc {
 			return
 		}
 		defer r.Body.Close()
-		if payload.CouponCode != "" && len(payload.CouponCode) < 8 && len(payload.CouponCode) > 10 {
+		if payload.CouponCode != "" && (len(payload.CouponCode) < 8 || len(payload.CouponCode) > 10) {
 			http.Error(w, "Invalid coupon code", http.StatusBadRequest)
 			log.Println("Invalid coupon code:", payload.CouponCode)
 			return
