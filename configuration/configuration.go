@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	Address            string = "0.0.0.0:8080"
+	Address            string = "0.0.0.0:5000"
 	UsernameContextKey        = models.ContextKey("username")
 )
 
