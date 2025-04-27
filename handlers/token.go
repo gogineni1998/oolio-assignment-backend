@@ -37,7 +37,7 @@ var Token = func() http.HandlerFunc {
 			return
 		}
 
-		expirationTime := time.Now().Add(15 * time.Minute)
+		expirationTime := time.Now().Add(60 * time.Minute)
 		claims := &models.Claims{
 			Username: creds.Username,
 			RegisteredClaims: jwt.RegisteredClaims{

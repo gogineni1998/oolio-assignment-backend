@@ -11,15 +11,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-const (
-	Address            string = "0.0.0.0:5000"
-	UsernameContextKey        = models.ContextKey("username")
-)
-
 var (
-	JwtKey               = []byte("dGp8mVzXeWvYhRJflA0LZcwPUujqX6TbyFQ1KOHgBMsiEnrNYk")
-	couponsFilePaths     = []string{"./data/couponbase1.gz", "./data/couponbase2.gz", "./data/couponbase3.gz"}
-	CopounData           = make(map[string]string)
+	Address              string = "0.0.0.0:5000"
+	UsernameContextKey          = models.ContextKey("username")
+	JwtKey                      = []byte("dGp8mVzXeWvYhRJflA0LZcwPUujqX6TbyFQ1KOHgBMsiEnrNYk")
+	couponsFilePaths            = []string{"./data/couponbase1.gz", "./data/couponbase2.gz", "./data/couponbase3.gz"}
+	CopounData                  = make(map[string]string)
 	DBClient             *mongo.Client
 	DBProductsCollection *mongo.Collection
 	DBOrdersCollection   *mongo.Collection

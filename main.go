@@ -9,12 +9,14 @@ import (
 	"github.com/gogineni1998/oolio-assignment-backend/server"
 )
 
-func main() {
-
+func Run() error {
 	log.Println("Starting server on", configuration.Address)
 	defer database.DisconnectDB(configuration.DBClient)
-	err := http.ListenAndServe(configuration.Address, server.NewServer())
-	if err != nil {
+	return http.ListenAndServe(configuration.Address, server.NewServer())
+}
+
+func main() {
+	if err := Run(); err != nil {
 		log.Fatal(err)
 	}
 }
